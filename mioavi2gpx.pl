@@ -20,7 +20,7 @@ my @tpoints;
 _parse_file($file);
 
 my $gpx = Geo::Gpx->new();
-$gpx->tracks([ { name => 1, segments => [ { points => \@tpoints } ] } ]);
+$gpx->tracks([ { name => $file, segments => [ { points => \@tpoints } ] } ]);
 write_file "$file.gpx", $gpx->xml();
 
 
@@ -75,7 +75,7 @@ sub _parse_list
         elsif ( $fourcc eq 'GPS ' ) {
             my $cnt = _read_size($fh);
             my $size = _read_size($fh);
-            read $fh, my $data, $size;
+            read $fh, (my $data), $size;
 
 #            my $hex = join q{ }, map { sprintf "%02X", $_ } unpack 'C*', $data;
 #            say STDERR q{ }x$level . "$fourcc: ($hcnt) $hex";
